@@ -169,44 +169,53 @@ class _UserState extends State<User>{
 
     return Column(
       children: [
-        Container(child: im, width: 320, height: 320, margin: EdgeInsets.fromLTRB(50, 30, 50, 0), alignment: Alignment.center),
-        Text("$name", style: TextStyle(fontSize: 30), textAlign: TextAlign.center, softWrap: true),
-        Row(children: <Widget>[
-          Expanded(
-              child: Container(child: Text('Прочитанные книги', style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
-              padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
-              margin: EdgeInsets.fromLTRB(0, 80, 0, 0),
-              decoration: BoxDecoration(
-              border: Border.all(color: Colors.black38)
+        Expanded(child:Column(
+          children: [
+            Container(child: im, width: 320, height: 320, margin: EdgeInsets.fromLTRB(50, 30, 50, 0), alignment: Alignment.center),
+            Text("$name", style: TextStyle(fontSize: 27), textAlign: TextAlign.center, softWrap: true)
+      ])
+    ),
+        Expanded(child: Column(
+          children: [
+            Row(children: <Widget>[
+              Expanded(
+                  child: Container(child: Text('Прочитанные книги', style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
+                    padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
+                    margin: EdgeInsets.fromLTRB(0, 80, 0, 0),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black38)
+                    ),
+                  )
+              ),
+            ]
             ),
-           )
-          ),
-        ]
-        ),
-        Row(children: <Widget>[
-          Expanded(
-              child: Container(child: Text('Цели по чтению', style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
-                padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
-                margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black38)
-                ),
-              )
-          ),
-        ]
-        ),
-        Row(children: <Widget>[
-          Expanded(
-              child: Container(child: Text('Заказать доставку', style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
-                padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
-                margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black38)
-                ),
-              )
-          ),
-        ]
-        )
+            Row(children: <Widget>[
+              Expanded(
+                  child: Container(child: Text('Цели по чтению', style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
+                    padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
+                    margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black38)
+                    ),
+                  )
+              ),
+            ]
+            ),
+            Row(children: <Widget>[
+              Expanded(
+                  child: Container(child: Text('Заказать доставку', style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
+                    padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
+                    margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black38)
+                    ),
+                  )
+              ),
+            ]
+            )
+          ]
+        ))
+
       ]
     );
   }
