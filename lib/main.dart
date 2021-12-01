@@ -154,6 +154,7 @@ class User extends StatefulWidget{
   @override
   _UserState createState() => _UserState(this.name, this.id, this.im);
 }
+
 class _UserState extends State<User>{
 
   String name = "";
@@ -165,7 +166,6 @@ class _UserState extends State<User>{
 
   @override
   Widget build(BuildContext context) {
-    final List<String> rows = ["Прочитанные книги", "Цели по чтению", "Заказать доставку"];
 
     return Column(
       children: [
@@ -179,45 +179,87 @@ class _UserState extends State<User>{
           children: [
             Row(children: <Widget>[
               Expanded(
-                  child: Container(child: Text('Прочитанные книги', style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
-                    padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
-                    margin: EdgeInsets.fromLTRB(0, 80, 0, 0),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black38)
+                  child: InkWell(
+                    onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => BooksRead()));},
+                      child: Container(child: Text('Прочитанные книги', style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
+                        padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
+                        margin: EdgeInsets.fromLTRB(0, 80, 0, 0),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black38),
+                        ),
+                      )
+                  ),
+              ),
+            ]
+            ),
+            Row(children: <Widget>[
+              Expanded(
+                  child: InkWell(
+                    onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ReadGoals()));},
+                    child: Container(child: Text('Цели по чтению', style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
+                      padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
+                      margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
+                      decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black38)
                     ),
+                    )
                   )
               ),
             ]
             ),
             Row(children: <Widget>[
               Expanded(
-                  child: Container(child: Text('Цели по чтению', style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
-                    padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
-                    margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black38)
-                    ),
-                  )
-              ),
-            ]
-            ),
-            Row(children: <Widget>[
-              Expanded(
-                  child: Container(child: Text('Заказать доставку', style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
-                    padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
-                    margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black38)
-                    ),
+                  child: InkWell(
+                    onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => OrderPage()));},
+                    child: Container(child: Text('Заказать доставку', style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
+                      padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
+                      margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black38)
+                      ),
+                    )
                   )
               ),
             ]
             )
           ]
-        ))
-
+        )
+        )
       ]
     );
   }
 
+}
+
+class BooksRead extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Прочитанные книги'),
+            backgroundColor: Colors.amber),
+        body: Center(child: Text('Вывести массив прочитанных книг через ListTile', style: TextStyle(fontSize: 25)))
+    );
+  }
+}
+
+class ReadGoals extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Цели'),
+          backgroundColor: Colors.amber),
+      body: Center(child: Text('Вывести массив целей по чтению через ListTile', style: TextStyle(fontSize: 25)))
+    );
+  }
+}
+
+class OrderPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Заказать'),
+            backgroundColor: Colors.amber),
+        body: Center(child: Text('Сделать страницу заказа', style: TextStyle(fontSize: 25)))
+    );
+  }
 }
