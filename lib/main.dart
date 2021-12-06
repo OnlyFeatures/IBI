@@ -144,7 +144,7 @@ class MyProfile extends StatelessWidget {
   }
 }
 
-class User extends StatefulWidget{
+class User extends StatefulWidget {
 
   String name = "";
   int id = 0;
@@ -156,12 +156,11 @@ class User extends StatefulWidget{
   _UserState createState() => _UserState(this.name, this.id, this.im);
 }
 
-class _UserState extends State<User>{
+class _UserState extends State<User> {
 
   String name = "";
   int id = 0;
   Image im = Image.asset("", fit: BoxFit.contain);
-
 
       _UserState(this.name, this.id, this.im);
 
@@ -256,16 +255,33 @@ class ReadGoals extends StatelessWidget {
 
 class OrderPage extends StatelessWidget {
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text('Заказать'),
             backgroundColor: Colors.amber),
-        body: Center(child: Text('Вообще-то тут должна быть страница поиска книги', style: TextStyle(fontSize: 25)))
-    );
-  }
+        body: Container(child: Column(children: <Widget>[
+          TextField(decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: "ФИО",
+          helperText: "Фамилия, Имя, Отчество",
+        )),
+          TextField(decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: "Номер телефона",
+            helperText: "+7 (XXX) XXX-XX-XX",
+          )),
+          TextField(decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: "Адрес",
+          ))
+        ],
+    ),
+        margin: EdgeInsets.fromLTRB(10,30,10,0)));
+    }
 }
 
-class Book extends StatefulWidget{
+class Book extends StatefulWidget {
 
   String name = "";
   int price = 0;
@@ -424,13 +440,13 @@ class ChildItem extends StatelessWidget {
   ChildItem(this.book);
   @override
   Widget build(BuildContext context) {
-    return new ListTile(title: new Container(child: Row(children: <Widget>[
+    return new ListTile(title: new Container(child: InkWell(child: Row(children: <Widget>[
       Expanded(child: Text(this.book.name)),
       Expanded(child: Container(child: this.book.im, width: 70, height: 140))]
     ),
+        onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => OrderPage()));}),
         padding: EdgeInsets.fromLTRB(30, 0, 0, 0)));
   }
-
 }
 
 final List<Book> books = <Book>[Book(name: "Catch-22",price: 406, im: Image.asset("assets/images/heller.jpg")),
