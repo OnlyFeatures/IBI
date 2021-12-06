@@ -268,21 +268,21 @@ class OrderPage extends StatelessWidget {
 class Book extends StatefulWidget{
 
   String name = "";
-  int id = 0;
+  int price = 0;
   Image im = Image.asset("", fit: BoxFit.contain);
 
-  Book({ Key? key, required this.name, required this.id, required this.im}) : super(key: key);
+  Book({ Key? key, required this.name, required this.price, required this.im}) : super(key: key);
   @override
-  _BookState createState() => _BookState(this.name, this.id, this.im);
+  _BookState createState() => _BookState(this.name, this.price, this.im);
 }
 
 class _BookState extends State<Book> {
 
   String name = "";
-  int id = 0;
+  int price = 0;
   Image im = Image.asset("", fit: BoxFit.contain);
 
-  _BookState(this.name, this.id, this.im);
+  _BookState(this.name, this.price, this.im);
 
   @override
   Widget build(BuildContext context) {
@@ -298,13 +298,12 @@ class SearchList extends StatefulWidget {
 
 }
 
-class _SearchListState extends State<SearchList>
-{
+class _SearchListState extends State<SearchList> {
   Widget appBarTitle = new Text("Поиск", style: new TextStyle(color: Colors.white),);
   Icon actionIcon = new Icon(Icons.search, color: Colors.white,);
   final key = new GlobalKey<ScaffoldState>();
   final TextEditingController _searchQuery = new TextEditingController();
-  List<String> _list = [];
+  List<Book> _list = <Book>[];
   bool _IsSearching = true;
   String _searchText = "";
 
@@ -334,9 +333,7 @@ class _SearchListState extends State<SearchList>
   }
 
   void init() {
-    _list = ["The Catcher in the Rye", "One Flew Over the Cuckoo's nest", "Cat's Cradle",
-    "Catch-22", "JoJo's Bizzare Adventure", "Spark of Life", "A Moveable Feast"];
-
+    _list = books;
   }
 
   @override
@@ -391,11 +388,11 @@ class _SearchListState extends State<SearchList>
     }
     else {
 
-      List<String> _searchList = [];
+      List<Book> _searchList = <Book>[];
       for (int i = 0; i < _list.length; i++) {
-        String  name = _list.elementAt(i);
+        String name = _list.elementAt(i).name;
         if (name.toLowerCase().contains(_searchText.toLowerCase())) {
-          _searchList.add(name);
+          _searchList.add(_list.elementAt(i));
         }
       }
       return _searchList.map((contact) => new ChildItem(contact))
@@ -423,11 +420,21 @@ class _SearchListState extends State<SearchList>
 }
 
 class ChildItem extends StatelessWidget {
-  final String name;
-  ChildItem(this.name);
+  final Book book;
+  ChildItem(this.book);
   @override
   Widget build(BuildContext context) {
-    return new ListTile(title: new Text(this.name));
+    return new ListTile(title: new Container(child: Row(children: <Widget>[
+      Expanded(child: Text(this.book.name)),
+      Expanded(child: Container(child: this.book.im, width: 70, height: 140))]
+    ),
+        padding: EdgeInsets.fromLTRB(30, 0, 0, 0)));
   }
 
 }
+
+final List<Book> books = <Book>[Book(name: "Catch-22",price: 406, im: Image.asset("assets/images/heller.jpg")),
+  Book(name: "The Catcher in the Rye", price: 350, im: Image.asset("assets/images/rye.jpg")),
+  Book(name: "The Call of Cthulhu", price: 310, im: Image.asset("assets/images/cthulhu.jpg")),
+  Book(name: "One Flew Over the Cuckoo's Nest",price: 327, im: Image.asset("assets/images/kizy.jpg")),
+  Book(name: "The Cherry Orchard", price: 253, im: Image.asset("assets/images/chehov.jpg"))];
