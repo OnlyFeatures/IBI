@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,6 +18,17 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(),
     );
   }
+}
+
+class Book extends StatefulWidget {
+
+  String name = "";
+  int price = 0;
+  Image im = Image.asset("", fit: BoxFit.contain);
+
+  Book({ Key? key, required this.name, required this.price, required this.im}) : super(key: key);
+  @override
+  _BookState createState() => _BookState(this.name, this.price, this.im);
 }
 
 class MyHomePage extends StatefulWidget {
@@ -95,7 +107,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Подборки для Вас",
+        title: const Text("Подборки",
                           style: TextStyle(color: Colors.black54,
                           fontSize: 17, fontWeight: FontWeight.w700 )
                           ),
@@ -254,6 +266,9 @@ class ReadGoals extends StatelessWidget {
 }
 
 class OrderPage extends StatelessWidget {
+  final Book book;
+  OrderPage(this.book);
+
   @override
 
   Widget build(BuildContext context) {
@@ -274,23 +289,26 @@ class OrderPage extends StatelessWidget {
           TextField(decoration: InputDecoration(
             border: OutlineInputBorder(),
             hintText: "Адрес",
-          ))
+          )),
+          Container(child: Row(children: <Widget>[
+            Expanded(child: Column(children: <Widget>[Text(this.book.name),
+              Text("Цена: ${this.book.price}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))])),
+            Expanded(child: Container(child: this.book.im, width: 70, height: 140))
+          ]
+          ),
+          margin: EdgeInsets.fromLTRB(20,100,0,0)),
+          Container(child: ElevatedButton(
+              child: Text("Оплатить", style: TextStyle(fontSize: 22)),
+              style: ElevatedButton.styleFrom(primary: Colors.deepOrangeAccent),
+              onPressed:(){}
+          ),
+              margin: EdgeInsets.fromLTRB(0,70,0,0))
         ],
     ),
         margin: EdgeInsets.fromLTRB(10,30,10,0)));
     }
 }
 
-class Book extends StatefulWidget {
-
-  String name = "";
-  int price = 0;
-  Image im = Image.asset("", fit: BoxFit.contain);
-
-  Book({ Key? key, required this.name, required this.price, required this.im}) : super(key: key);
-  @override
-  _BookState createState() => _BookState(this.name, this.price, this.im);
-}
 
 class _BookState extends State<Book> {
 
@@ -444,7 +462,7 @@ class ChildItem extends StatelessWidget {
       Expanded(child: Text(this.book.name)),
       Expanded(child: Container(child: this.book.im, width: 70, height: 140))]
     ),
-        onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => OrderPage()));}),
+        onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => OrderPage(book)));}),
         padding: EdgeInsets.fromLTRB(30, 0, 0, 0)));
   }
 }
@@ -454,3 +472,4 @@ final List<Book> books = <Book>[Book(name: "Catch-22",price: 406, im: Image.asse
   Book(name: "The Call of Cthulhu", price: 310, im: Image.asset("assets/images/cthulhu.jpg")),
   Book(name: "One Flew Over the Cuckoo's Nest",price: 327, im: Image.asset("assets/images/kizy.jpg")),
   Book(name: "The Cherry Orchard", price: 253, im: Image.asset("assets/images/chehov.jpg"))];
+
