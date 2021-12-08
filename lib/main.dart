@@ -265,9 +265,33 @@ class ReadGoals extends StatelessWidget {
   }
 }
 
-class OrderPage extends StatelessWidget {
+class Order extends StatefulWidget {
+
   final Book book;
-  OrderPage(this.book);
+
+  Order({ Key? key, required this.book}) : super(key: key);
+
+  @override
+  _OrderState createState() => _OrderState();
+}
+
+class _OrderState extends State<Order> {
+
+  String fullName = "";
+  String adress = "";
+  String number = "";
+
+  _fullName(String text){
+    setState(() =>fullName = text);
+  }
+
+  _adress(String text){
+    setState(() =>adress = text);
+  }
+
+  _number(String text){
+    setState(() =>number = text);
+  }
 
   @override
 
@@ -280,27 +304,30 @@ class OrderPage extends StatelessWidget {
           border: OutlineInputBorder(),
           hintText: "ФИО",
           helperText: "Фамилия, Имя, Отчество",
-        )),
+        ),
+            onChanged: _fullName),
           TextField(decoration: InputDecoration(
             border: OutlineInputBorder(),
             hintText: "Номер телефона",
             helperText: "+7 (XXX) XXX-XX-XX",
-          )),
+          ),
+            onChanged: _number),
           TextField(decoration: InputDecoration(
             border: OutlineInputBorder(),
             hintText: "Адрес",
-          )),
+          ),
+              onChanged: _adress),
           Container(child: Row(children: <Widget>[
-            Expanded(child: Column(children: <Widget>[Text(this.book.name),
-              Text("Цена: ${this.book.price}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))])),
-            Expanded(child: Container(child: this.book.im, width: 70, height: 140))
+            Expanded(child: Column(children: <Widget>[Text(widget.book.name),
+              Text("Цена: ${widget.book.price}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))])),
+            Expanded(child: Container(child: widget.book.im, width: 70, height: 140))
           ]
           ),
           margin: EdgeInsets.fromLTRB(20,100,0,0)),
           Container(child: ElevatedButton(
-              child: Text("Оплатить", style: TextStyle(fontSize: 22)),
+              child: Text("Заказать", style: TextStyle(fontSize: 22)),
               style: ElevatedButton.styleFrom(primary: Colors.deepOrangeAccent),
-              onPressed:(){}
+              onPressed:(){print(fullName);print(adress);print(number);}
           ),
               margin: EdgeInsets.fromLTRB(0,70,0,0))
         ],
@@ -308,7 +335,6 @@ class OrderPage extends StatelessWidget {
         margin: EdgeInsets.fromLTRB(10,30,10,0)));
     }
 }
-
 
 class _BookState extends State<Book> {
 
@@ -462,10 +488,34 @@ class ChildItem extends StatelessWidget {
       Expanded(child: Text(this.book.name)),
       Expanded(child: Container(child: this.book.im, width: 70, height: 140))]
     ),
-        onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => OrderPage(book)));}),
+        onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => BookPage(book)));}),
         padding: EdgeInsets.fromLTRB(30, 0, 0, 0)));
   }
 }
+
+class BookPage extends StatelessWidget {
+  final Book book;
+  BookPage(this.book);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('${book.name}'),
+            backgroundColor: Colors.amber),
+        body: Column(
+          children: <Widget>[
+              Expanded(child: Container(child: book.im, margin: EdgeInsets.fromLTRB(0,30,0,0), alignment: Alignment.center), flex: 6),
+              Expanded(child: Column(children: <Widget>[Text(book.name,  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 40), textAlign: TextAlign.center),
+                    Text("Цена: ${book.price}", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 40))]), flex: 2),
+              Expanded(child: Container(child: ElevatedButton(
+              child: Text("Заказать", style: TextStyle(fontSize: 22)),
+              style: ElevatedButton.styleFrom(primary: Colors.deepOrangeAccent),
+              onPressed:(){Navigator.push(context, MaterialPageRoute(builder: (context) => Order(book: this.book)));})), flex: 1)],
+        )
+    );
+  }
+}
+
 
 final List<Book> books = <Book>[Book(name: "Catch-22",price: 406, im: Image.asset("assets/images/heller.jpg")),
   Book(name: "The Catcher in the Rye", price: 350, im: Image.asset("assets/images/rye.jpg")),
