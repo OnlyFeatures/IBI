@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 void main() {
   runApp(MyApp());
 }
@@ -391,6 +390,46 @@ class CourierPage extends StatelessWidget{
   }
 }
 
+class Fantastics extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Фантастика'),
+            backgroundColor: Colors.amber),
+        body:  Container(child:InkWell(child: Row(children: <Widget>[
+                    Expanded(child: Text(books[3].name)),
+                    Expanded(child: Container(
+                        child: books[3].im, width: 70, height: 140))
+                  ]
+                  ),
+          onTap:() {Navigator.push(context, MaterialPageRoute(builder: (context) => BookPage(books[3])));}
+        ),padding: const EdgeInsets.fromLTRB(50, 10, 0, 10)),);
+  }
+}
+
+class ForeignLit extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Зарубежная литература'),
+            backgroundColor: Colors.amber),
+        body: ListView.separated(
+            padding: const EdgeInsets.all(8),
+            itemCount: 3,
+            separatorBuilder: (BuildContext context, int index1) => Divider(),
+            itemBuilder: (BuildContext context, int index1) {
+              return ListTile(title: new Container(
+                  child: InkWell(child: Row(children: <Widget>[
+                    Expanded(child: Text(books[index1].name)),
+                    Expanded(child: Container(
+                        child: books[index1].im, width: 70, height: 140))
+                  ]
+                  ), onTap:() {Navigator.push(context, MaterialPageRoute(builder: (context) => BookPage(books[index1])));}),
+                  padding: EdgeInsets.fromLTRB(30, 0, 0, 0)));
+            }));
+  }
+}
+
 class HomePage extends StatelessWidget {
 
   @override
@@ -407,13 +446,13 @@ class HomePage extends StatelessWidget {
       body: Container(child:Column(children: <Widget>[
         Expanded(child: InkWell(child: Text("Зарубежная литература",
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.w300), textAlign: TextAlign.center),
-            onTap:(){})),
+            onTap:(){Navigator.push(context, MaterialPageRoute(builder: (context) => ForeignLit()));})),
         Expanded(child: InkWell(child: Text("Отечественная литература",
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.w300), textAlign: TextAlign.center),
-            onTap:(){})),
+            onTap:(){Navigator.push(context, MaterialPageRoute(builder: (context) => NativeLit()));})),
         Expanded(child: InkWell(child: Text("Фантастика",
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.w300), textAlign: TextAlign.center),
-            onTap:(){}))]),
+            onTap:(){Navigator.push(context, MaterialPageRoute(builder: (context) => Fantastics()));}))]),
           margin: EdgeInsets.fromLTRB(0, 60, 0, 0)));
   }
 }
@@ -598,6 +637,23 @@ class _myUserState extends State<myUser> {
 
 }
 
+class NativeLit extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Отечественная литература'),
+          backgroundColor: Colors.amber),
+      body:  Container(child:InkWell(child: Row(children: <Widget>[
+        Expanded(child: Text(books[4].name)),
+        Expanded(child: Container(
+            child: books[4].im, width: 70, height: 140))
+      ]
+      ), onTap:() {Navigator.push(context, MaterialPageRoute(builder: (context) => BookPage(books[4])));}),
+          padding: EdgeInsets.fromLTRB(30, 0, 0, 0))
+        );
+  }
+}
+
 class OrderPage extends StatefulWidget {
 
   final Book book;
@@ -650,6 +706,7 @@ class _OrderPageState extends State<OrderPage> {
             hintText: "Адрес",
           ),
               onChanged: _adress),
+          Center(child: InkWell(child:Text("Публичная оферта"), onTap:() => launch('https://docs.google.com/document/d/1i1yBR-_F4PKGKxFbn52C76XlInhnD7e5LHUKGY8Hiio/edit#heading=h.gjdgxs'))),
           Container(child: Row(children: <Widget>[
             Expanded(child: Column(children: <Widget>[Text(widget.book.name),
               Text("Цена: ${widget.book.price}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))])),
@@ -892,8 +949,8 @@ int index = 0;
 
 final List<Book> books = <Book>[Book(name: "Поправка-22", author: "Джозеф Хеллер", price: 406, im: Image.asset("assets/images/heller.jpg"), note:"Эта оригинальная история о службе летчиков ВВС США в период Второй мировой войны полна несуразных ситуаций, не менее несуразных смешных диалогов, безумных персонажей и абсурдных бюрократических коллизий, связанных с некой не существующей на бумаге, но от этого не менее действенной «поправкой-22» в законе."),
   Book(name: "Над пропастью во ржи", author: "Дж. Д. Сэлинджер", price: 350, im: Image.asset("assets/images/rye.jpg"), note: "Единственный роман Сэлинджера, «Над пропастью во ржи» стал переломной вехой в истории мировой литературы. И название романа, и имя его главного героя Холдена Колфилда сделались кодовыми для многих поколений молодых бунтарей – от битников и хиппи до современных радикальных молодежных движений."),
-  Book(name: "Зов Ктулху", author: "Говард Лавкрафт",price: 310, im: Image.asset("assets/images/cthulhu.jpg"), note: "Ктулху, Дагон, Йог-Сотот и многие другие божества, придуманные Говардом Лавкрафтом в 1920-е годы, приобрели впоследствии такую популярность, что сотни творцов фантастики, включая Нила Геймана и Стивена Кинга, до сих пор продолжают расширять его мифологию. Каждый монстр же в лавкрафтовском мире олицетворяет собой одну из бесчисленных граней хаоса. "),
   Book(name: "Пролетая над гнездом кукушки",author: "Кен Кизи",price: 327, im: Image.asset("assets/images/kizy.jpg"), note:"«Пролетая над гнездом кукушки» – это грубое и опустошительно честное изображение границ между здравомыслием и безумием. Книга продолжает жить и не утратила прежней сумасшедшей популярности в наши дни."),
+  Book(name: "Зов Ктулху", author: "Говард Лавкрафт",price: 310, im: Image.asset("assets/images/cthulhu.jpg"), note: "Ктулху, Дагон, Йог-Сотот и многие другие божества, придуманные Говардом Лавкрафтом в 1920-е годы, приобрели впоследствии такую популярность, что сотни творцов фантастики, включая Нила Геймана и Стивена Кинга, до сих пор продолжают расширять его мифологию. Каждый монстр же в лавкрафтовском мире олицетворяет собой одну из бесчисленных граней хаоса. "),
   Book(name: "Вишневый сад", author: "Антон Чехов", price: 253, im: Image.asset("assets/images/chehov.jpg"), note: "«Вишнёвый сад» – комедия в четырёх действиях Антона Павловича Чехова. Пьеса написана в 1903 году, впервые поставлена 17 января 1904 года в Московском художественном театре. Уникальная радиопостановка, записанная в 1949 году, с участием актрисы Ольги Книппер-Чеховой, жены писателя.")];
 
 
