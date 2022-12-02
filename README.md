@@ -2,7 +2,7 @@
 
 A new Flutter project.
 
-## Getting Started
+## About
 
 Приложение-сервис по доставке книг день в день
 
